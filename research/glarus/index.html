@@ -271,7 +271,7 @@
     <main class="main">
         <div class="hero">
             <img src="glarus_logo.png" alt="Glarus Exploit" class="hero-image">
-            <span class="vulnerability-badge">PATCHED</span>
+            <span class="vulnerability-badge">PATCHED in macOS 26.1</span>
             <h1>The Glarus Exploit</h1>
             <p class="subtitle">The State of Link Exploitation on macOS 26</p>
             <p class="meta">December 2025 · Golden Helm Securities</p>
@@ -283,7 +283,8 @@
             This research examines the current state of symbolic and hard link exploitation on macOS 26 (Tahoe), 
             focusing on privilege escalation from standard user to root. We present <strong>Glarus</strong>, a vulnerability 
             in the <code>dirhelper</code> system daemon that combines a string truncation bug with a time-of-check 
-            time-of-use (TOCTOU) race condition to achieve arbitrary root file ownership changes.
+            time-of-use (TOCTOU) race condition to achieve arbitrary root file ownership changes. This exploit is patched in
+            macOS 26.1 and provides a valuable case studying in finding and exploiting link bugs in the current version of macOS
         </p>
 
         <div class="downloads">
