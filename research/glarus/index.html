@@ -42,7 +42,7 @@
         }
 
         .logo-small {
-            width: 60px;
+            width: 100px;
             height: auto;
             opacity: 0.9;
             transition: opacity 0.2s ease;
@@ -314,25 +314,6 @@
                 View PoC Code
             </a>
         </div>
-
-        <section class="findings">
-            <h2 class="section-title">Key Findings</h2>
-            
-            <div class="finding">
-                <p class="finding-title">String Truncation Vulnerability</p>
-                <p class="finding-desc">Unchecked <code>strlcat()</code> return value allows attacker-controlled buffer size to truncate paths, removing trailing slashes that distinguish directories from files.</p>
-            </div>
-            
-            <div class="finding">
-                <p class="finding-title">TOCTOU Race Condition</p>
-                <p class="finding-desc">Race window between <code>mkdir()</code> and <code>lchown()</code> allows directory-to-hardlink swap using rename operations to achieve an lchown call on an arbitrary file.</p>
-            </div>
-            
-            <div class="finding">
-                <p class="finding-title">Three-Layer Defense Architecture</p>
-                <p class="finding-desc">Apple prevents straightforward esclation through protection of authentication files via SIP, TCC "Administer Computer" prompts, and application-level validation—but many exploitation targets remain unexplored.</p>
-            </div>
-        </section>
 
         <section class="timeline">
             <h2 class="section-title">Timeline</h2>
