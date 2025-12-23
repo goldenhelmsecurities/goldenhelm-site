@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BK8MM5V9F2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BK8MM5V9F2');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glarus: The State of Link Exploitation on macOS 26 | Golden Helm Securities</title>
@@ -279,7 +287,7 @@
         </p>
 
         <div class="downloads">
-            <a href="TheGlarusExploit_v1_0.pdf" class="download-btn">
+            <a href="TheGlarusExploit_v1_0.pdf" class="download-btn" onclick="gtag('event', 'download', {event_category: 'PDF', event_label: 'Glarus Exploit v1.0'});">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
