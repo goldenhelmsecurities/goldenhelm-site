@@ -280,11 +280,24 @@
         <div class="divider"></div>
 
         <p class="abstract">
-            This research examines the current state of symbolic and hard link exploitation on macOS 26 (Tahoe), 
-            focusing on privilege escalation from standard user to root. We present <strong>Glarus</strong>, a vulnerability 
-            in the <code>dirhelper</code> system daemon that combines a string truncation bug with a time-of-check 
-            time-of-use (TOCTOU) race condition to achieve arbitrary root file ownership changes. This exploit is patched in
-            macOS 26.1 and provides a valuable case studying in finding and exploiting link bugs in the current version of macOS
+            This research examines the current state of symbolic and hard link exploitation on macOS 26 (Tahoe),
+            focusing on privilege escalation from standard user to root. I present <strong>Glarus</strong>, a vulnerability
+            in the <code>dirhelper</code> system daemon that combines a string truncation bug with a time-of-check
+            time-of-use (TOCTOU) race condition to achieve arbitrary file ownership changes.
+        </p>
+        <p class="abstract">
+            The investigation reveals that Apple has implemented targeted hardening via TCC "Administer Computer"
+            permissions specifically protecting authentication files from many link attacks that would provide
+            straightforward access to root code execution. I explore other escalation paths, do initial documentation
+            of Apple's defense-in-depth architecture, and discuss the implications for macOS symbolic and hard link
+            security research. The aim of this research is to serve as both a definitive starting point and
+            comprehensive summary of finding and exploiting symbolic and hard link vulnerabilities on macOS 26.
+        </p>
+        <p class="abstract">
+            <strong>Note on Patch Status:</strong> The Glarus vulnerability was patched in macOS 26.1 Beta 3,
+            released on October 13, 2025, two days prior to my disclosure to Apple. Despite being patched, Glarus
+            remains a valuable case study demonstrating the power of chaining path manipulation bugs with symbolic
+            and hard link primitives.
         </p>
 
         <div class="downloads">
