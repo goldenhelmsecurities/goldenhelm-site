@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<!-- saved from url=(0045)file:///Users/goldenhelm/Downloads/index.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Golden Helm Securities</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com/">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-    <link href="./index_files/css2" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,46 +15,138 @@
         }
 
         body {
-            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f5f3ef 0%, #e8e4dc 100%);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            background: linear-gradient(to bottom, #f7f3eb 0%, #ebe5d9 100%);
-            color: #3d3225;
+            color: #2c2c2c;
+            padding: 2rem;
         }
 
         .container {
             text-align: center;
-            padding: 2rem;
+            max-width: 800px;
         }
 
         .logo {
-            max-width: 340px;
-            width: 90vw;
-            margin-bottom: 2rem;
-            filter: drop-shadow(0 4px 12px rgba(61, 50, 37, 0.15));
+            width: 180px;
+            height: auto;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
         }
 
         .tagline {
-            font-size: 1.25rem;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.6rem;
             font-weight: 400;
-            letter-spacing: 0.12em;
-            color: #5c4d3a;
+            color: #3a3a3a;
+            line-height: 1.6;
+            letter-spacing: 0.02em;
+            margin-bottom: 3rem;
+        }
+
+        .tagline span {
+            display: block;
+        }
+
+        /* Research Section */
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #b8a88a, transparent);
+            margin: 0 auto 2rem;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #6b6b6b;
             text-transform: uppercase;
-            border-top: 1px solid #c9a86c;
-            padding-top: 1.5rem;
-            max-width: 400px;
-            margin: 0 auto;
+            letter-spacing: 0.15em;
+            margin-bottom: 1.5rem;
+        }
+
+        .research-list {
+            list-style: none;
+        }
+
+        .research-item {
+            margin-bottom: 1rem;
+        }
+
+        .research-link {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.15rem;
+            color: #4a4a4a;
+            text-decoration: none;
+            transition: color 0.2s ease, border-bottom 0.2s ease;
+            border-bottom: 1px solid transparent;
+            padding-bottom: 2px;
+        }
+
+        .research-link:hover {
+            color: #8b7355;
+            border-bottom: 1px solid #8b7355;
+        }
+
+        .research-meta {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 0.3rem;
+            font-weight: 300;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 4rem;
+            font-size: 0.8rem;
+            color: #999;
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 600px) {
+            .logo {
+                width: 140px;
+            }
+
+            .tagline {
+                font-size: 1.3rem;
+            }
+
+            .research-link {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <img src="logo.png" alt="Golden Helm Securities" class="logo">
-        <p class="tagline">Boutique<br> Software &amp; Investment<br> Security</p>
+        
+        <p class="tagline">
+            <span>Boutique</span>
+            <span>Software &amp; Investment</span>
+            <span>Security</span>
+        </p>
+
+        <div class="divider"></div>
+
+        <h2 class="section-title">Research</h2>
+        
+        <ul class="research-list">
+            <li class="research-item">
+                <a href="research/glarus/" class="research-link">
+                    Glarus: The State of Link Exploitation on macOS 26
+                </a>
+                <p class="research-meta">December 2025 · CVE-2024-44243</p>
+            </li>
+        </ul>
+
+        <p class="footer">© 2025 Golden Helm Securities</p>
     </div>
-
-
-</body></html>
+</body>
+</html>
