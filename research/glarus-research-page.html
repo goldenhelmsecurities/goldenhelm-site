@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glarus: The State of Link Exploitation on macOS 26 | Golden Helm Securities</title>
+    <meta name="description" content="Security research on symbolic and hard link exploitation on macOS 26, featuring the Glarus vulnerability in the dirhelper system daemon.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f5f3ef 0%, #e8e4dc 100%);
+            min-height: 100vh;
+            color: #2c2c2c;
+            line-height: 1.7;
+        }
+
+        .header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(139, 115, 85, 0.2);
+        }
+
+        .header a {
+            text-decoration: none;
+        }
+
+        .logo-small {
+            width: 60px;
+            height: auto;
+            opacity: 0.9;
+            transition: opacity 0.2s ease;
+        }
+
+        .logo-small:hover {
+            opacity: 1;
+        }
+
+        .main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-image {
+            width: 160px;
+            height: 160px;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .vulnerability-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #8b7355;
+            background: rgba(139, 115, 85, 0.1);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 500;
+            color: #2c2c2c;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .meta {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #b8a88a, transparent);
+            margin: 2rem auto;
+        }
+
+        .abstract {
+            font-size: 1.05rem;
+            color: #4a4a4a;
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .downloads {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #fff;
+            background: #3a3a3a;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .download-btn:hover {
+            background: #4a4a4a;
+            transform: translateY(-1px);
+        }
+
+        .download-btn.secondary {
+            background: transparent;
+            color: #3a3a3a;
+            border: 1px solid #3a3a3a;
+        }
+
+        .download-btn.secondary:hover {
+            background: rgba(58, 58, 58, 0.05);
+        }
+
+        .download-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Key Findings */
+        .section-title {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: #2c2c2c;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(139, 115, 85, 0.3);
+        }
+
+        .findings {
+            margin-bottom: 3rem;
+        }
+
+        .finding {
+            background: rgba(255, 255, 255, 0.5);
+            border-left: 3px solid #8b7355;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .finding-title {
+            font-weight: 500;
+            color: #2c2c2c;
+            margin-bottom: 0.3rem;
+        }
+
+        .finding-desc {
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        /* Timeline */
+        .timeline {
+            margin-bottom: 3rem;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .timeline-date {
+            color: #888;
+            min-width: 140px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        .timeline-event {
+            color: #4a4a4a;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.8rem;
+            color: #999;
+            border-top: 1px solid rgba(139, 115, 85, 0.2);
+        }
+
+        .footer a {
+            color: #8b7355;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .downloads {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+                gap: 0.2rem;
+            }
+
+            .timeline-date {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="/">
+            <img src="/logo.png" alt="Golden Helm Securities" class="logo-small">
+        </a>
+    </header>
+
+    <main class="main">
+        <div class="hero">
+            <img src="glarus-logo.jpg" alt="Glarus Exploit" class="hero-image">
+            <span class="vulnerability-badge">PATCHED</span>
+            <h1>The Glarus Exploit</h1>
+            <p class="subtitle">The State of Link Exploitation on macOS 26</p>
+            <p class="meta">December 2025 · Golden Helm Securities</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <p class="abstract">
+            This research examines the current state of symbolic and hard link exploitation on macOS 26 (Tahoe), 
+            focusing on privilege escalation from standard user to root. We present <strong>Glarus</strong>, a vulnerability 
+            in the <code>dirhelper</code> system daemon that combines a string truncation bug with a time-of-check 
+            time-of-use (TOCTOU) race condition to achieve arbitrary root file ownership changes.
+        </p>
+
+        <div class="downloads">
+            <a href="TheGlarusExploit_v1_0.pdf" class="download-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Read Paper (PDF)
+            </a>
+            <a href="https://github.com/goldenhelmsecurities/glarus-poc" class="download-btn secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+                View PoC Code
+            </a>
+        </div>
+
+        <section class="findings">
+            <h2 class="section-title">Key Findings</h2>
+            
+            <div class="finding">
+                <p class="finding-title">String Truncation Vulnerability</p>
+                <p class="finding-desc">Unchecked <code>strlcat()</code> return value allows attacker-controlled buffer size to truncate paths, removing trailing slashes that distinguish directories from files.</p>
+            </div>
+            
+            <div class="finding">
+                <p class="finding-title">TOCTOU Race Condition</p>
+                <p class="finding-desc">Race window between <code>mkdir()</code> and <code>lchown()</code> allows directory-to-hardlink swap using rename operations to achieve an lchown call on an arbitrary file.</p>
+            </div>
+            
+            <div class="finding">
+                <p class="finding-title">Three-Layer Defense Architecture</p>
+                <p class="finding-desc">Apple prevents straightforward esclation through protection of authentication files via SIP, TCC "Administer Computer" prompts, and application-level validation—but many exploitation targets remain unexplored.</p>
+            </div>
+        </section>
+
+        <section class="timeline">
+            <h2 class="section-title">Timeline</h2>
+            
+            <div class="timeline-item">
+                <span class="timeline-date">Aug 4, 2025</span>
+                <span class="timeline-event">Initial dirhelper issue reported to Apple</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-date">Oct 13, 2025</span>
+                <span class="timeline-event">macOS 26.1 Beta 3 released with TOCTOU patch</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-date">Oct 16, 2025</span>
+                <span class="timeline-event">Glarus vulnerability formally reported</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-date">Dec 12, 2025</span>
+                <span class="timeline-event">macOS 26.2 released with complete fix</span>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-date">Dec 2025</span>
+                <span class="timeline-event">Public disclosure</span>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>© 2025 Golden Helm Securities · <a href="/">Home</a></p>
+    </footer>
+</body>
+</html>
